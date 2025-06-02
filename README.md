@@ -13,7 +13,7 @@ These are the steps neccesary to generate the data exactly the way I did it for 
    - record_id, product_id, name, category, and subcategory were to STRING.
    - standard_cost and standard_price are set to DOUBLE.
    - from_date and to_date are set to DATE.
-5.	Ran “Data Generator” using Serverless compute to generate the data with the relevant schema name and order count.
+5.	Ran “Data Generator V2” using Serverless compute to generate the data with the relevant schema name and order count.
    - There is room for adjusting seeds for randomness, weight orders towards a month or another, and a few other knobs. Keeping things exactly as I ran them on this upload.
 6.	Ran “Quick Visual” SQL script to test that everything looked good on the seed schema data.
 7.	Ran “Spreader” script, in which we copy the facts, location, and product tables to a schema specific to the warehouse size we are testing.
