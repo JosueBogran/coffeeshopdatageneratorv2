@@ -1,7 +1,7 @@
 # coffeeshopdatageneratorv2
 Generate dummy data with a coffee-shop theme. Lots of room for improvement, but functional and customizable!
 
-These are the steps neccesary to generate the data exactly the way I did it for my published performance comparisons. You may be able to skip-as needed
+These are the steps neccesary to generate the data exactly the way I did it for my published performance comparisons. You may be able to skip certain steps if not running comparisons.
 
 1.	Created sweetcoffeetree database directly on Databricks.
 2.	Created sweetcoffeetree.coffeesales500m_v2_seed schema. 
