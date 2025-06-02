@@ -23,3 +23,9 @@ These are the steps neccesary to generate the data exactly the way I did it for 
 10.	Ran Query_01 through Query_17, after each previous query completed inside the SQL Editor/Snowflake equivalent. Made sure there was no row limit on results.
 11.	Repeated relevant steps for other sized/data size combination.
 12.	Copied data inside the “Seed” schema data into snowflake via Spark connector, and repeated 7-10 inside of Snowflake.
+
+
+If this was helpful, please follow on LinkedIn/Substack/YouTube.
+https://www.linkedin.com/in/josuebogran/
+https://www.youtube.com/@JosueBogranChannel
+https://josuebogran.substack.com/
