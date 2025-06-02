@@ -1,7 +1,7 @@
 # coffeeshopdatageneratorv2
 Generate dummy data with a coffee-shop theme. Lots of room for improvement, but functional and customizable!
 
-These are the steps neccesary to generate the data exactly the way I did it for my published performance comparisons. You may be able to skip-as needed.
+These are the steps neccesary to generate the data exactly the way I did it for my published performance comparisons. You may be able to skip-as needed
 
 1.	Created sweetcoffeetree database directly on Databricks.
 2.	Created sweetcoffeetree.coffeesales500m_v2_seed schema. 
@@ -15,6 +15,8 @@ These are the steps neccesary to generate the data exactly the way I did it for 
    - from_date and to_date are set to DATE.
 5.	Ran “Data Generator V2” using Serverless compute to generate the data with the relevant schema name and order count.
    - There is room for adjusting seeds for randomness, weight orders towards a month or another, and a few other knobs. Keeping things exactly as I ran them on this upload.
+Note: If all you want to do is use the dataset generator for non performance comparison purposes, you are ready to go! If you are using it for comparisons, please continue:
+
 6.	Ran “Quick Visual” SQL script to test that everything looked good on the seed schema data.
 7.	Ran “Spreader” script, in which we copy the facts, location, and product tables to a schema specific to the warehouse size we are testing.
 8.	Created SQL Serverless Warehouse, for example, “Small_500m", Small_"1b", "large_5b", etc.
