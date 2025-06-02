@@ -1,3 +1,5 @@
+--Note: Adjust accordingly to the test requirements that you have.
+
 CREATE SCHEMA IF NOT EXISTS sweetcoffeetree.coffeesales500m_v2_small;
 
 CREATE TABLE sweetcoffeetree.coffeesales500m_v2_small.fact_sales
