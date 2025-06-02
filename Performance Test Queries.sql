@@ -11,8 +11,8 @@ SELECT
         ORDER BY f.order_date
         ROWS BETWEEN 6 PRECEDING AND CURRENT ROW
     ) AS rolling_7day_avg
-FROM sweetcoffeetree.coffeesales5b_v2_Xlarge.fact_sales f
-JOIN sweetcoffeetree.coffeesales5b_v2_Xlarge.dim_locations l
+FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
     ON f.location_id = l.location_id
 GROUP BY
     f.order_date,
@@ -29,7 +29,7 @@ WITH monthly_sales AS (
         DATE_TRUNC('month', f.order_date) AS sales_month,
         f.product_name,
         SUM(f.sales_amount) AS total_sales
-    FROM sweetcoffeetree.coffeesales5b_v2_Xlarge.fact_sales f
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
     GROUP BY
         DATE_TRUNC('month', f.order_date),
         f.product_name
@@ -51,8 +51,8 @@ WITH season_discount AS (
         l.state,
         f.season,
         AVG(f.discount_percentage) AS avg_discount
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     GROUP BY
         l.city,
@@ -88,8 +88,8 @@ SELECT
     SUM(f.quantity) AS total_quantity_sold,
     SUM(f.sales_amount) AS total_sales_amount,
     (p.standard_price - p.standard_cost) * SUM(f.quantity) AS theoretical_margin
-FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
     ON f.product_name = p.name
     AND f.order_date BETWEEN p.from_date AND p.to_date
 GROUP BY
@@ -109,8 +109,8 @@ WITH daily_city_qty AS (
         f.order_date,
         l.city,
         SUM(f.quantity) AS daily_qty
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     GROUP BY
         f.order_date,
@@ -131,14 +131,14 @@ ORDER BY city, order_date;
 
 
 --Query 06
-CREATE OR REPLACE TABLE sweetcoffeetree.coffeesales5b_v2_xlarge.query06 AS
+CREATE OR REPLACE TABLE sweetcoffeetree.coffeesales500m_v2_small.query06 AS
 WITH monthly_cat AS (
     SELECT
         DATE_TRUNC('month', f.order_date) AS sales_month,
         p.category,
         SUM(f.sales_amount) AS monthly_revenue
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
     GROUP BY
@@ -161,8 +161,8 @@ WITH yearly_sales AS (
         l.state,
         YEAR(f.order_date) AS sales_year,
         SUM(f.sales_amount) AS total_sales_year
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     GROUP BY
         l.location_id,
@@ -194,10 +194,10 @@ WITH city_quarter_subcat AS (
         DATE_TRUNC('quarter', f.order_date) AS sales_quarter,
         p.subcategory,
         SUM(f.sales_amount) AS total_sales
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
     GROUP BY
@@ -222,8 +222,8 @@ WITH daily_discount AS (
         l.city,
         f.order_date,
         AVG(f.discount_percentage) AS avg_discount
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     GROUP BY
         l.city,
@@ -245,14 +245,14 @@ ORDER BY city, order_date;
 
 --Query 10
 CREATE OR REPLACE TABLE 
-sweetcoffeetree.coffeesales5b_v2_xlarge.query10 AS
+sweetcoffeetree.coffeesales500m_v2_small.query10 AS
 WITH daily_orders AS (
     SELECT
         f.order_date,
         l.city,
         COUNT(DISTINCT f.order_id) AS daily_distinct_orders
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     GROUP BY
         f.order_date,
@@ -279,10 +279,10 @@ WITH city_quarter_subcat AS (
         DATE_TRUNC('quarter', f.order_date) AS sales_quarter,
         p.subcategory,
         SUM(f.sales_amount) AS total_sales
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
     WHERE l.city IN ('Charlotte', 'Houston')
@@ -309,10 +309,10 @@ WITH city_quarter_subcat AS (
         DATE_TRUNC('quarter', f.order_date) AS sales_quarter,
         p.subcategory,
         SUM(f.sales_amount) AS total_sales
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
     WHERE l.city IN ('Charlotte', 'Houston')
@@ -343,10 +343,10 @@ WITH city_quarter_subcat AS (
         DATE_TRUNC('quarter', f.order_date) AS sales_quarter,
         p.subcategory,
         SUM(f.sales_amount) AS total_sales
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
     WHERE l.city = 'Austin'
@@ -377,10 +377,10 @@ WITH city_quarter_subcat AS (
         DATE_TRUNC('quarter', f.order_date) AS sales_quarter,
         p.subcategory,
         SUM(f.sales_amount) AS total_sales
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
     WHERE DATE_TRUNC('quarter', f.order_date) IN (
@@ -404,7 +404,7 @@ ORDER BY city, sales_quarter, subcat_rank;
 
 
 --Query 15
-CREATE OR REPLACE TABLE sweetcoffeetree.coffeesales5b_v2_xlarge.query15 AS
+CREATE OR REPLACE TABLE sweetcoffeetree.coffeesales500m_v2_small.query15 AS
 WITH base_data AS (
     SELECT
         f.location_id,
@@ -414,11 +414,11 @@ WITH base_data AS (
         SUM(f.sales_amount) AS total_sales,
         SUM(f.sales_amount * (f.discount_percentage / 100.0)) AS total_discount,
         SUM(f.quantity * p.standard_cost) AS total_cogs
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     WHERE f.order_date BETWEEN '2022-01-01' AND '2024-12-31'
     GROUP BY f.location_id, l.city, f.product_name, DATE_TRUNC('quarter', f.order_date)
@@ -462,11 +462,11 @@ WITH seasonal_data AS (
         SUM(f.sales_amount) AS total_sales,
         SUM(f.quantity) AS total_units,
         COUNT(DISTINCT f.order_id) AS order_count
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products p
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products p
         ON f.product_name = p.name
         AND f.order_date BETWEEN p.from_date AND p.to_date
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations l
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations l
         ON f.location_id = l.location_id
     WHERE f.order_date BETWEEN '2023-01-01' AND '2024-06-30'
     GROUP BY l.state, f.season, p.category
@@ -493,11 +493,11 @@ WITH raw_agg AS (
         SUM(f.sales_amount)       AS total_sales,
         SUM(f.quantity)           AS total_units,
         COUNT(DISTINCT f.order_id) AS order_count
-    FROM sweetcoffeetree.coffeesales5b_v2_xlarge.fact_sales AS f
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_products AS p
+    FROM sweetcoffeetree.coffeesales500m_v2_small.fact_sales AS f
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_products AS p
       ON f.product_id = p.product_id
      AND f.order_date BETWEEN p.from_date AND p.to_date
-    JOIN sweetcoffeetree.coffeesales5b_v2_xlarge.dim_locations AS l
+    JOIN sweetcoffeetree.coffeesales500m_v2_small.dim_locations AS l
       ON f.location_id = l.location_id
     WHERE 
         l.region        = 'West'
